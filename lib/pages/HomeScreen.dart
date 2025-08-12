@@ -1,84 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'BookingScreen.dart';
-import 'ProfileScreen.dart';
-import 'ServiceScreen.dart';
-
-void main() {
-  runApp(const SalonApp());
-}
-
-class SalonApp extends StatelessWidget {
-  const SalonApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Glamour Salon',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        scaffoldBackgroundColor: Colors.grey[50],
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black87,
-          elevation: 0,
-        ),
-      ),
-      home: const MainNavigation(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
-
-  @override
-  State<MainNavigation> createState() => _MainNavigationState();
-}
-
-class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ServicesScreen(),
-    const BookingScreen(),
-    const ProfileScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
-        selectedItemColor: Colors.pink,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.content_cut),
-            label: 'Services',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Book',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
-}
+import 'Services/FacialServiceScreen.dart';
+import 'Services/HaircutServiceScreen.dart';
+import 'Services/ManicureServiceScreen.dart';
+import 'Services/MassageServiceScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -107,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        'Sarah Johnson',
+                        'Raian Ibn Faiz',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -206,7 +132,7 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              // Popular Services
+              // Popular Services with Navigation
               const Text(
                 'Popular Services',
                 style: TextStyle(
@@ -222,10 +148,46 @@ class HomeScreen extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    _buildServiceCard('Haircut', Icons.content_cut, Colors.blue),
-                    _buildServiceCard('Manicure', Icons.back_hand, Colors.green),
-                    _buildServiceCard('Facial', Icons.face, Colors.orange),
-                    _buildServiceCard('Massage', Icons.spa, Colors.purple),
+                    _buildServiceCard(
+                      context,
+                      'Haircut',
+                      Icons.content_cut,
+                      Colors.blue,
+                          () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HaircutServiceScreen()),
+                      ),
+                    ),
+                    _buildServiceCard(
+                      context,
+                      'Manicure',
+                      Icons.back_hand,
+                      Colors.green,
+                          () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ManicureServiceScreen()),
+                      ),
+                    ),
+                    _buildServiceCard(
+                      context,
+                      'Facial',
+                      Icons.face,
+                      Colors.orange,
+                          () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const FacialServiceScreen()),
+                      ),
+                    ),
+                    _buildServiceCard(
+                      context,
+                      'Massage',
+                      Icons.spa,
+                      Colors.purple,
+                          () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MassageServiceScreen()),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -274,38 +236,41 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCard(String title, IconData icon, Color color) {
-    return Container(
-      width: 100,
-      margin: const EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: color.withOpacity(0.2),
-            child: Icon(icon, color: color),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
+  Widget _buildServiceCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 100,
+        margin: const EdgeInsets.only(right: 15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 10,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: color.withOpacity(0.2),
+              child: Icon(icon, color: color),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

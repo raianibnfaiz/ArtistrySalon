@@ -22,7 +22,7 @@ class ServicesScreen extends StatelessWidget {
             _buildServiceTile('Nail Services', Icons.back_hand, '\$15-45', Colors.green),
             _buildServiceTile('Facial Treatments', Icons.face, '\$30-90', Colors.orange),
             _buildServiceTile('Body Massage', Icons.spa, '\$50-120', Colors.purple),
-            _buildServiceTile('Eyebrow Threading', Icons.remove_red_eye, '\$12-25', Colors.teal),
+            _buildServiceTile('Eyebrow Thread', Icons.remove_red_eye, '\$12-25', Colors.teal),
             _buildServiceTile('Makeup Services', Icons.brush, '\$40-100', Colors.red),
           ],
         ),
@@ -44,32 +44,34 @@ class ServicesScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: color.withOpacity(0.2),
-            radius: 30,
-            child: Icon(icon, color: color, size: 30),
-          ),
-          const SizedBox(height: 15),
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: color.withOpacity(0.2),
+              radius: 30,
+              child: Icon(icon, color: color, size: 30),
             ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 5),
-          Text(
-            price,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 14,
+            const SizedBox(height: 15),
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
+            const SizedBox(height: 5),
+            Text(
+              price,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

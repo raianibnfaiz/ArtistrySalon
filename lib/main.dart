@@ -1,6 +1,8 @@
 import 'package:art/pages/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'Navigation/MainNavigation.dart';
+
 void main() {
   runApp(const SalonApp());
 }
